@@ -1,0 +1,155 @@
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CommunityScreen(innerPadding: PaddingValues,navController: NavController) {
+    var searchText by remember { mutableStateOf("") }
+    val viewModel: AlumniUploadViewModel = viewModel()
+    val uploads = remember { viewModel.uploads }
+    LaunchedEffect(Unit) {
+        viewModel.fetchAllUploads()
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 10.dp, end = 10.dp)
+    ) {
+        Box(modifier= Modifier
+            .fillMaxWidth()
+            .height(50.dp)){
+            OutlinedTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(5.dp, shape = RoundedCornerShape(12.dp)),
+                placeholder = { Text("Search for posts, deadlines and info") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = Color.Gray
+                    )
+                },
+                shape = RoundedCornerShape(12.dp),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                ),
+                singleLine = true
+            )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
+        Box(modifier= Modifier
+            .fillMaxWidth()
+            .height(190.dp),
+            contentAlignment = Alignment.Center){
+            Column(
+                modifier=Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    text = "Trending posts",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = urbanist,
+
+                    )
+                Spacer(modifier = Modifier.height(5.dp))
+                Card(
+                    modifier = Modifier
+                        .width(377.dp)
+                        .height(130.dp)
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(16.dp),
+                            spotColor = Color.Black,
+                            ambientColor = Color.Black
+                        )
+                        .clickable {
+                            println(uploads)
+                        },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(163, 127, 219)
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text(
+                            text = "Top Opportunities of the day",
+                            color = Color.Black,
+                            fontFamily= urbanist,
+                            fontWeight = FontWeight(600),
+                            fontSize = 15.sp
+                        )
+                        Text(
+                            text = "Zomato is Hiring!",
+                            color = Color.White,
+                            fontSize = 27.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily= urbanist
+                        )
+                        Text(
+                            text = "20L-30LPA",
+                            color = Color.Black,
+                            fontFamily = urbanist,
+                            fontSize = 27.sp
+                        )
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+        ) {
+            Spacer(modifier = Modifier.width(140.dp))
+            Box(){
+
+                Button(
+                    onClick = { /* Handle sort */ },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .border(2.dp, Color.Black, shape = RoundedCornerShape(12.dp))
+                        .shadow(10.dp, shape = RoundedCornerShape(12.dp))
+                        .size(height = 40.dp, width = 100.dp)
+                ) {
+                    Text(
+                        text="     Sort",
+                        fontWeight = FontWeight(600),
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                        fontFamily = urbanist
+                    )
+                }
+                Image(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .offset(x = 8.dp, y = 5.dp),
+                    painter = painterResource(id = R.drawable.sort),
+                    contentDescription = "sort",
+                    colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.Black)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        LazyColumn {
+            items(uploads) { upload ->
+                if(upload.file_url.isNullOrEmpty()) {
+                    NoImageCardForAlumni(navController, upload)
+                }
+                else {
+                    ImageCardForAlumni(navController, upload)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
