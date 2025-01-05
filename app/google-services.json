@@ -1,81 +1,64 @@
 {
   "project_info": {
-    "project_number": "296701634000",
-    "project_id": "journalia-a72df",
-    "storage_bucket": "journalia-a72df.firebasestorage.app"
+    "project_number": "39324751955",
+    "project_id": "alma-matar",
+    "storage_bucket": "alma-matar.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:296701634000:android:9a3483e1a10fda3f8885d5",
+        "mobilesdk_app_id": "1:39324751955:android:5a6e22dc2bfdcbaf280ea6",
         "android_client_info": {
-          "package_name": "com.journalia_nitt.journalia_admin_cms"
+          "package_name": "com.example.alma_matar"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "296701634000-r61pgjg06c03ualvd04kkj58q9d9rveb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.journalia_nitt.journalia_admin_cms",
-            "certificate_hash": "4aab759afc651ab283dfe03f6a7b28bc046b2530"
-          }
-        },
-        {
-          "client_id": "296701634000-93e1gqtlfdqsispo308csvlqlf9pd6rg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDsmY3T7B348wNsayRQ65hyTqFhQa_CmaQ"
+          "current_key": "AIzaSyAmAC8sXoYfmSJhozk6WubxmGbM8LJHIzI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "296701634000-93e1gqtlfdqsispo308csvlqlf9pd6rg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:296701634000:android:e26f7ff27c5f9b738885d5",
+        "mobilesdk_app_id": "1:39324751955:android:5d0616a529c6481c280ea6",
         "android_client_info": {
-          "package_name": "com.nitt.journalia"
+          "package_name": "com.example.journalia"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "296701634000-p4tuq7smdqs3acqhq8ob013iqnmi9qk7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nitt.journalia",
-            "certificate_hash": "e3381c0628dc7baa4dd5eea008efbf1ad65abd99"
-          }
-        },
-        {
-          "client_id": "296701634000-93e1gqtlfdqsispo308csvlqlf9pd6rg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDsmY3T7B348wNsayRQ65hyTqFhQa_CmaQ"
+          "current_key": "AIzaSyAmAC8sXoYfmSJhozk6WubxmGbM8LJHIzI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "296701634000-93e1gqtlfdqsispo308csvlqlf9pd6rg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39324751955:android:e26ffe1242400524280ea6",
+        "android_client_info": {
+          "package_name": "com.journalia_nitt.journalia_admin_cms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmAC8sXoYfmSJhozk6WubxmGbM8LJHIzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

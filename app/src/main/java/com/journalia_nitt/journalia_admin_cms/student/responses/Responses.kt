@@ -7,10 +7,11 @@ data class TokenId(
     val id:String
 )
 
-data class StudentInfo(
+data class UserInfo(
     val name:String,
     val collegeId: String,
-    val loginStatus:Boolean
+    val loginStatus:Boolean,
+    val role:String
 )
 data class TokenResponse(val token: String)
 

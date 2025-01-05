@@ -9,17 +9,13 @@ import com.journalia_nitt.journalia_admin_cms.administration.response.SecretResp
 import com.journalia_nitt.journalia_admin_cms.administration.response.UploadResponse
 import com.journalia_nitt.journalia_admin_cms.administration.response.fetchResponse
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import java.util.concurrent.TimeUnit
 
 interface FileUpload{
     @Multipart

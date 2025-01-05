@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.journalia_nitt.journalia_admin_cms.student.responses.DeadlineRequest
 import com.journalia_nitt.journalia_admin_cms.student.responses.ZResponse
-import com.example.journalia.Student.Services.StudentApiService
-import com.example.journalia.Student.SharedPreferences.getTokenDetails
+import com.journalia_nitt.journalia_admin_cms.student.sharedPreferences.getTokenDetails
 import com.journalia_nitt.journalia_admin_cms.api.RetrofitClient
+import com.journalia_nitt.journalia_admin_cms.student.services.StudentApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -2,8 +2,8 @@ package com.journalia_nitt.journalia_admin_cms.student.authentication
 
 import com.journalia_nitt.journalia_admin_cms.student.responses.LoginRequest
 import com.journalia_nitt.journalia_admin_cms.student.responses.TokenResponse
-import com.example.journalia.Student.Services.StudentApiService
 import com.journalia_nitt.journalia_admin_cms.api.RetrofitClient
+import com.journalia_nitt.journalia_admin_cms.student.services.StudentApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

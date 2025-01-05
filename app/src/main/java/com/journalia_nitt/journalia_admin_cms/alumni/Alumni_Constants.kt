@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontFamily
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.alumni.response.AlumniUpload
 import com.journalia_nitt.journalia_admin_cms.alumni.response.LoggedInAccount
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_alumni_cms
 
 var clickedPost = mutableStateOf(
     AlumniUpload(
@@ -22,10 +21,6 @@ var clickedPost = mutableStateOf(
         upvotes = 0,
         upvoters = emptyList()
     )
-)
-val landingPageButtonTexts = listOf(
-    Pair("ALUMNI COMMUNITY" , Screens_in_alumni_cms.communityPage),
-    Pair("CREATE A POST", Screens_in_alumni_cms.postPage)
 )
 val EditState = mutableStateOf(false)
 var theUser = LoggedInAccount(

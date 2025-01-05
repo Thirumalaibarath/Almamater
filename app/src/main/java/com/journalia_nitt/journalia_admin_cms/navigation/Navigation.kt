@@ -1,276 +1,244 @@
 package com.journalia_nitt.journalia_admin_cms.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.journalia_nitt.journalia_admin_cms.common.screens.AdminComponents
-import com.journalia_nitt.journalia_admin_cms.student.screens.AdminDetailsPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.CommunityPage
-import com.journalia_nitt.journalia_admin_cms.common.screens.LoginPage
-import com.journalia_nitt.journalia_admin_cms.common.screens.SpalshScreen
-import com.journalia_nitt.journalia_admin_cms.student.screens.PostCreation
-import com.journalia_nitt.journalia_admin_cms.student.screens.ProfilePage
-import com.journalia_nitt.journalia_admin_cms.student.screens.BookmarkPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.CalenderPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.PDFWebViewScreen
-import com.journalia_nitt.journalia_admin_cms.student.screens.ClubPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.ClubSubPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.FestDirectory
-import com.journalia_nitt.journalia_admin_cms.student.screens.LandingPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.clubCommunityPage
-import com.journalia_nitt.journalia_admin_cms.student.screens.ViewPost
-import com.example.journalia.WebView.WebView
-import com.example.journalia.WebView.Webmail
-import com.example.journalia.WebView.buildUrl
 import com.google.gson.Gson
-import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniPageContent
-import com.journalia_nitt.journalia_admin_cms.alumni.screens.CommunityScreen
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminCreateAPostScreen
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminDashBoard
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminHomeScreen
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminLoginScreen
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminLoginVerificationScreen
+import com.journalia_nitt.journalia_admin_cms.administration.screens.AdminViewPostScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniCommunityScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniCreateAPostScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniHomeScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniLoginScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniPostViewScreen
+import com.journalia_nitt.journalia_admin_cms.alumni.screens.AlumniRegisterScreen
+import com.journalia_nitt.journalia_admin_cms.common.navigationDeck.AdminAndAlumniScaffold
+import com.journalia_nitt.journalia_admin_cms.common.screens.CommonSplashScreen
+import com.journalia_nitt.journalia_admin_cms.common.screens.UserRoleSelectionScreen
+import com.journalia_nitt.journalia_admin_cms.student.navigationDeck.Page
 import com.journalia_nitt.journalia_admin_cms.student.responses.Deadline
-import com.journalia_nitt.journalia_admin_cms.student.responses.UserFetchClass
-
-val webmailURL = "https://students.nitt.edu/horde/login.php"
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentAdminDashboardScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentAdminPostViewScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentBookMarkScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentCalendarScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentClubDirectoryScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentCreateAPostScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentFestDirectoryScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentHomeScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentLoginScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.StudentProfileScreen
+import com.journalia_nitt.journalia_admin_cms.student.screens.buildUrl
+import com.journalia_nitt.journalia_admin_cms.webView.WebView
+import com.journalia_nitt.journalia_admin_cms.webView.Webmail
 
 @Composable
 fun MyApp(innerPaddingValues: PaddingValues) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screens.SplashScreen.route
+        startDestination = Screens.CommonSplashScreen.route
     ) {
-        composable(Screens.SplashScreen.route) {
-            SpalshScreen(innerPaddingValues,navController)
+        composable(
+            route = Screens.WebViewScreen.route+"/{url}",
+            arguments = listOf(navArgument("url") { type = NavType.StringType })
+        )
+        { backStackEntry ->
+            val url = backStackEntry.arguments?.getString("url")
+            if (url != null) {
+                WebView(url = url)
+            }
         }
-        composable(Screens.LoginPage.route) {
-            LoginPage(navController=navController)
+        composable(Screens.CommonSplashScreen.route) {
+            CommonSplashScreen(innerPaddingValues,navController)
         }
-        composable(Screens.AuthPage.route) {
-            WebView(navController = navController, url = buildUrl())
+        composable(Screens.UserRoleSelectionScreen.route) {
+            UserRoleSelectionScreen(navController = navController)
         }
-        composable(Screens.HomePage.route) {
-            LandingPage(navController,innerPaddingValues)
+        // admin side
+        composable(Screens.AdminLoginScreen.route) {
+            AdminLoginScreen(innerPaddingValues,navController)
         }
-        composable(Screens.CalenderPage.route) {
-            Page(
-                innerPadding = innerPaddingValues ,
-                currentPage = {
-                    CalenderPage(navController = navController)
-                },
-                navController = navController,
+        composable(
+            Screens.AdminLoginVerificationScreen.route+"/{email}",
+            arguments = listOf(navArgument("email") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val email = backStackEntry.arguments?.getString("email")
+            if (email != null) {
+                AdminLoginVerificationScreen(email = email, navController = navController, innerPaddingValues = innerPaddingValues)
+            }
+        }
+        composable(
+            route = Screens.AdminHomeScreen.route,
+        ) {
+            AdminAndAlumniScaffold(
+                currentPage = {   AdminHomeScreen(navController = navController) },
                 searchBar = false,
+                heading = "HOME",
+                navController = navController
+            )
+        }
+        composable(
+            Screens.AdminCreatePostScreen.route+"/{mode}",
+            arguments = listOf(navArgument("mode") { type = NavType.IntType })
+        ) {backStackEntry ->
+            val mode = backStackEntry.arguments?.getInt("mode")
+            if (mode != null) {
+                AdminAndAlumniScaffold(
+                    currentPage = {   AdminCreateAPostScreen(navController = navController,mode = mode) },
+                    searchBar = false,
+                    heading = "CREATE",
+                    navController = navController
+                )
+            }
+        }
+        composable(Screens.AdminDashboardScreen.route) {
+            AdminAndAlumniScaffold(
+                currentPage = { AdminDashBoard(navController = navController) },
+                searchBar = true,
+                heading = "ADMIN DASHBOARD",
+                navController = navController
+            )
+        }
+        composable(Screens.AdminViewPostScreen.route) {
+            AdminAndAlumniScaffold(
+                currentPage = {  AdminViewPostScreen(navController = navController) },
+                searchBar = false,
+                heading = "CIRCULAR",
+                navController = navController
+            )
+        }
+        // student side
+        composable(Screens.StudentLoginScreen.route) {
+            StudentLoginScreen(navController, buildUrl())
+        }
+        composable(Screens.StudentHomeScreen.route) {
+            Page(
+                currentPage ={ StudentHomeScreen(navController) },
+                navController = navController,
+                searchBar  = false,
+                heading = "HOME"
+            )
+        }
+        composable(Screens.StudentCalendarScreen.route) {
+            Page(
+                currentPage ={  StudentCalendarScreen() },
+                navController = navController,
+                searchBar  = false,
                 heading = "CALENDAR"
             )
         }
-        composable(Screens.AdminPage.route) {
+        composable(Screens.StudentCreateAPostScreen.route) {
             Page(
-                innerPadding = innerPaddingValues ,
-                currentPage = {
-                    AdminComponents(navController)
-                },
+                currentPage ={  StudentCreateAPostScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
-                heading = "ADMIN BOARD"
-            )
-        }
-        composable(Screens.PostCreationPage.route) {
-            Page(
-                innerPadding = innerPaddingValues ,
-                currentPage = {
-                    PostCreation(navController)
-                },
-                navController = navController,
-                searchBar = false,
+                searchBar  = false,
                 heading = "CREATE A POST"
             )
         }
-        composable(Screens.BookMarkPage.route) {
+        composable(Screens.StudentBookMarkScreen.route) {
             Page(
-                innerPadding = innerPaddingValues ,
-                currentPage = {
-                    BookmarkPage()
-                },
+                currentPage ={  StudentBookMarkScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
-                heading = "BOOKMARKS"
+                searchBar  = false,
+                heading = "BOOKMARK"
             )
         }
-        composable(Screens.ProfilePage.route) {
+        composable(Screens.StudentProfileScreen.route) {
             Page(
-                innerPadding = innerPaddingValues ,
-                currentPage = {
-                    ProfilePage(navController)
-                },
+                currentPage ={  StudentProfileScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
+                searchBar  = false,
                 heading = "PROFILE"
             )
         }
         composable(
-            route = Screens.AdminDetailsPage.route,
-            arguments = listOf(
-                navArgument("item") {
-                    type = NavType.StringType
-                }
-            )
-        ) { navBackStackEntry ->
-
-            val itemJson = navBackStackEntry.arguments?.getString("item")
-            val item = if (itemJson != null) {
-                Gson().fromJson(itemJson, Deadline::class.java)
-            } else {
-                null
-            }
-
-            if (item != null) {
-                Page(
-                    innerPadding = innerPaddingValues ,
-                    currentPage = {
-                        AdminDetailsPage(item,navController)
-                    },
-                    navController = navController,
-                    searchBar = false,
-                    heading = "CIRCULAR"
-                )
-            } else {
-                Text("Error: Item not found")
-            }
-        }
-
-        composable(Screens.FestDirectory.route) {
+            route = Screens.StudentAdminPostViewScreen.route +"/{deadline}",
+            arguments = listOf(navArgument("deadline") { type = NavType.StringType })
+            ) {
+                backStackEntry ->
+            val jsonString = backStackEntry.arguments?.getString("deadline")
+            val gson = Gson()
+            val deadline = jsonString?.let { gson.fromJson(it, Deadline::class.java) }
             Page(
-                innerPaddingValues,
-                currentPage={
-                    FestDirectory(navController)
-                },
+                currentPage ={  StudentAdminPostViewScreen(item = deadline,navController = navController) },
                 navController = navController,
-                searchBar = false,
+                searchBar  = false,
+                heading = "PROFILE"
+            )
+        }
+        composable(Screens.StudentAdminDashboardScreen.route) {
+            Page(
+                currentPage ={  StudentAdminDashboardScreen(navController = navController) },
+                navController = navController,
+                searchBar  = true,
+                heading = "DASHBOARD"
+            )
+        }
+        composable(Screens.StudentFestDirectoryScreen.route) {
+            Page(
+                currentPage ={  StudentFestDirectoryScreen(navController = navController) },
+                navController = navController,
+                searchBar  = false,
                 heading = "FEST DIRECTORY"
             )
         }
-        composable(Screens.ClubDirectory.route) {
+        composable(Screens.StudentClubDirectoryScreen.route) {
             Page(
-                innerPaddingValues,
-                currentPage = {
-                    ClubSubPage(navController)
-                },
+                currentPage ={  StudentClubDirectoryScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
+                searchBar  = false,
                 heading = "CLUB DIRECTORY"
             )
         }
-        composable(Screens.ClubPage.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    ClubPage(innerPaddingValues,navController)
-                },
+        // alumni side
+        composable(Screens.AlumniHomeScreen.route) {
+            AdminAndAlumniScaffold(
+                currentPage ={ AlumniHomeScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
-                heading = "Explore"
+                searchBar  = false,
+                heading = "HOME"
             )
         }
-        composable(Screens.CommunityPage.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    CommunityPage(innerPaddingValues,navController)
-                },
+        composable(Screens.AlumniCreateAPostScreen.route) {
+            AdminAndAlumniScaffold(
+                currentPage ={  AlumniCreateAPostScreen(navController = navController, innerPaddingValues = innerPaddingValues) },
                 navController = navController,
-                searchBar = false,
-                heading = "PUBLIC COMMUNITY"
+                searchBar  = false,
+                heading = "CREATE"
             )
         }
-        composable(Screens.Webmail.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    Webmail(webmailURL)
-                },
-                navController = navController,
-                searchBar = false,
-                heading = ""
-            )
+        composable(Screens.AlumniLoginScreen.route) {
+            AlumniLoginScreen(navController = navController, innerPaddingValues = innerPaddingValues)
         }
-        composable(Screens.ClubCommunityPage.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    clubCommunityPage(innerPaddingValues,navController)
-                },
-                navController = navController,
-                searchBar = false,
-                heading = "FEST COMMUNITY"
-            )
-        }
-        composable(
-            route= Screens.ViewPost.route,
-            arguments = listOf(
-                navArgument("item") {
-                    type = NavType.StringType
-                }
-            )
-        ) {navBackStackEntry ->
-
-            val itemJson1 = navBackStackEntry.arguments?.getString("item")
-            val item = if (itemJson1 != null) {
-                Gson().fromJson(itemJson1, UserFetchClass::class.java)
-            } else {
-                null
-            }
-
-            if (item != null) {
-                Page(
-                    innerPaddingValues,
-                    currentPage = {
-                        ViewPost(navController,item)
-                    },
-                    navController = navController,
-                    searchBar = false,
-                    heading = "VIEW POST"
-                )
-            } else {
-                Text("Error: Item not found")
-            }
+        composable(Screens.AlumniRegisterScreen.route) {
+            AlumniRegisterScreen(navController = navController, innerPaddingValues = innerPaddingValues)
         }
         composable(Screens.AlumniCommunityScreen.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    CommunityScreen(innerPaddingValues,navController)
-                },
+            AdminAndAlumniScaffold(
+                currentPage ={  AlumniCommunityScreen(navController = navController) },
                 navController = navController,
-                searchBar = false,
-                heading = "ALUMNI COMMUNITY"
+                searchBar  = false,
+                heading = "COMMUNITY"
             )
         }
-        composable(Screens.PdfWebViewPage.route) {
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    PDFWebViewScreen()
-                },
+        composable(Screens.AlumniPostViewScreen.route) {
+            AdminAndAlumniScaffold(
+                currentPage ={   AlumniPostViewScreen(navController = navController,) },
                 navController = navController,
-                searchBar = false,
-                heading = "PDF VIEW SCREEN"
+                searchBar  = false,
+                heading = "POST"
             )
         }
-        composable(Screens.AlumniContentPage.route) {
-            val showBottomSheet = remember { mutableStateOf(false) }
-            Page(
-                innerPaddingValues,
-                currentPage = {
-                    AlumniPageContent(innerPaddingValues,showBottomSheet,navController)
-                },
-                navController = navController,
-                searchBar = false,
-                heading = "POST SCREEN"
-            )
+        composable(Screens.WebMailScreen.route) {
+            Webmail(url = "https://students.nitt.edu/horde/login.php")
         }
     }
 }

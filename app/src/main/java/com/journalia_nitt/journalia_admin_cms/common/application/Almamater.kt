@@ -1,4 +1,4 @@
-package com.example.journalia.Common.Application
+package com.journalia_nitt.journalia_admin_cms.common.application
 
 import android.app.Application;
 import com.google.firebase.FirebaseApp
