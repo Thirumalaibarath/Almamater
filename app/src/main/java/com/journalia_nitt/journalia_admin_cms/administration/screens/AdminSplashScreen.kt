@@ -33,7 +33,6 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.administration.sharedPreferences.getFromSharedPreferences
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_Admin_cms
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
 @Composable
@@ -45,10 +44,10 @@ fun AdminSplashScreen(innerPadding: PaddingValues, navController: NavController)
             try {
                 token.value = getFromSharedPreferences(context , "token")
                 if(token.value == "") {
-                    navController.navigate(Screens_in_Admin_cms.LoginPage.route)
+//                    navController.navigate(Screens_in_Admin_cms.LoginPage.route)
                 }
                 else {
-                    navController.navigate(Screens_in_Admin_cms.LandingPage.createRoute(token.value))
+//                    navController.navigate(Screens_in_Admin_cms.LandingPage.createRoute(token.value))
                 }
             }
             catch(e : Exception) {

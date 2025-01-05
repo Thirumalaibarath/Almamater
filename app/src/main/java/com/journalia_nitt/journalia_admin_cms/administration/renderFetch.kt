@@ -1,4 +1,4 @@
-package com.journalia_nitt.journalia_admin_cms
+package com.journalia_nitt.journalia_admin_cms.administration
 
 import androidx.compose.foundation.Image
 import androidx.compose.material3.Button

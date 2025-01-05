@@ -1,6 +1,6 @@
 package com.journalia_nitt.journalia_admin_cms.common.screens
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,89 +24,112 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.navigation.Screens
+import com.journalia_nitt.journalia_admin_cms.ui.theme.color_2
+import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
 @Composable
-fun LoginPage(navController: NavController)
+fun UserRoleSelectionScreen(navController: NavController)
 {
     val buttonColor = Color(0XFFCDC1FF)
     Column(
-        modifier = Modifier.fillMaxSize().padding(WindowInsets.systemBars.asPaddingValues()),
+        modifier = Modifier.fillMaxSize().background(color = color_2).padding(WindowInsets.systemBars.asPaddingValues()).background(color = Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(50.dp,Alignment.CenterVertically)
     )
     {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "alma",
+                    fontWeight = FontWeight(600),
+                    fontFamily = FontFamily(Font(R.font.urbanist)),
+                    fontSize = 50.sp,
+                    color = Color(150,103,224)
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text="mater",
+                    fontWeight = FontWeight(600),
+                    fontFamily = FontFamily(Font(R.font.urbanist)),
+                    fontSize = 50.sp,
+                    color = Color(188, 128, 240)
+                )
+            }
             Text(
-                text = "alma",
+                text="made for NIT Trichy",
                 fontWeight = FontWeight(600),
                 fontFamily = FontFamily(Font(R.font.urbanist)),
-                fontSize = 50.sp,
+                fontSize = 15.sp,
                 color = Color(150,103,224)
             )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text="mater",
-                fontWeight = FontWeight(600),
-                fontFamily = FontFamily(Font(R.font.urbanist)),
-                fontSize = 50.sp,
-                color = Color(188, 128, 240)
+            Spacer(modifier = Modifier.height(20.dp))
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(R.raw.nitt_logo)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = "SVG Logo",
+                modifier = Modifier.size(100.dp)
             )
         }
-        Text(
-            text="made for NIT Trichy",
-            fontWeight = FontWeight(600),
-            fontFamily = FontFamily(Font(R.font.urbanist)),
-            fontSize = 20.sp,
-            color = Color(150,103,224)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.nitt_logo),
-            contentDescription = "logo",
-            modifier = Modifier.size(200.dp).padding(0.dp,20.dp),
-            contentScale = ContentScale.FillBounds,
-        )
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(text = "Where do you belong?", fontStyle = FontStyle.Italic, fontSize = 20.sp)
-        Card(
-            colors = CardDefaults.cardColors(containerColor = buttonColor),
-            modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.65f).padding(top = 20.dp)
+
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            Text(text = "ADMIN BOARD",modifier= Modifier.padding(0.dp,15.dp).align(Alignment.CenterHorizontally),fontWeight = FontWeight.Bold)
-        }
-        Card(
-            colors = CardDefaults.cardColors(containerColor = buttonColor),
-            modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.85f).padding(top = 20.dp)
-                .clickable {
-                    navController.navigate(Screens.AuthPage.route)
+            Text(text = "Where do you belong?", fontFamily = urbanist, fontSize = 20.sp)
+            Card(
+                colors = CardDefaults.cardColors(containerColor = buttonColor),
+                elevation = CardDefaults.cardElevation(15.dp),
+                modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.65f).padding(top = 20.dp)
+                    .clickable {
+                        navController.navigate(Screens.AdminLoginScreen.route)
+                    }
+            )
+            {
+                Text(text = "ADMIN BOARD" ,fontSize = 18.sp,modifier= Modifier.padding(0.dp,25.dp).align(Alignment.CenterHorizontally), fontFamily = urbanist,fontWeight = FontWeight.Bold)
+            }
+            Card(
+                colors = CardDefaults.cardColors(containerColor = buttonColor),
+                elevation = CardDefaults.cardElevation(15.dp),
+                modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.85f).padding(top = 20.dp)
+                    .clickable {
+                        navController.navigate(Screens.StudentLoginScreen.route)
+                    }
+            )
+            {
+                Text(text = "STUDENT COMMUNITY",fontSize = 18.sp,modifier= Modifier.padding(0.dp,25.dp).align(Alignment.CenterHorizontally), fontFamily = urbanist,fontWeight = FontWeight.Bold)
+            }
+            Card(
+                colors = CardDefaults.cardColors(containerColor = buttonColor),
+                elevation = CardDefaults.cardElevation(15.dp),
+                modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.65f).padding(top = 20.dp) .clickable {
+                    navController.navigate(Screens.AlumniRegisterScreen.route)
                 }
-        )
-        {
-            Text(text = "STUDENT COMMUNITY",modifier= Modifier.padding(0.dp,15.dp).align(Alignment.CenterHorizontally), fontWeight = FontWeight.Bold)
+            )
+            {
+                Text(text = "ALUMNI CONNECT",fontSize = 18.sp,modifier= Modifier.padding(0.dp,25.dp).align(Alignment.CenterHorizontally), fontFamily = urbanist,fontWeight = FontWeight.Bold)
+            }
         }
-        Card(
-            colors = CardDefaults.cardColors(containerColor = buttonColor),
-            modifier = Modifier.shadow(0.dp, shape = RoundedCornerShape(12.dp)).fillMaxWidth(0.65f).padding(top = 20.dp)
-        )
-        {
-            Text(text = "ALUMNI CONNECT",modifier= Modifier.padding(0.dp,15.dp).align(Alignment.CenterHorizontally), fontWeight = FontWeight.Bold)
-        }
-
-
     }
 }
 

@@ -76,14 +76,10 @@ import com.journalia_nitt.journalia_admin_cms.alumni.response.Comment
 import com.journalia_nitt.journalia_admin_cms.alumni.response.Upvote
 import com.journalia_nitt.journalia_admin_cms.alumni.theUser
 import com.journalia_nitt.journalia_admin_cms.alumni.viewModels.AlumniUploadViewModel
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_alumni_cms
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
 @Composable
-fun AlumniPostViewScreen(innerPadding: PaddingValues,
-                         showBottomSheet: MutableState<Boolean>,
-                         navController: NavController
-) {
+fun AlumniPostViewScreen( navController: NavController) {
     val scrollState = rememberScrollState()
     val heading = clickedPost.value.title
     val body = clickedPost.value.description
@@ -202,7 +198,7 @@ fun AlumniPostViewScreen(innerPadding: PaddingValues,
                         IconButton(
                             onClick = {
                                 EditState.value = true
-                                navController.navigate(Screens_in_alumni_cms.postPage.route)
+//                                navController.navigate(Screens_in_alumni_cms.postPage.route)
                             },
                             modifier = Modifier.scale(2f)
                         ) {
@@ -324,7 +320,6 @@ fun AlumniPostViewScreen(innerPadding: PaddingValues,
                 Box {
                     IconButton(
                         onClick = {
-                            showBottomSheet.value = true
                         },
                         modifier = Modifier
                             .scale(2f)
@@ -506,7 +501,7 @@ fun Page(innerPadding: PaddingValues, navController: NavController) {
             DraggableBottomSheet(innerPadding,showBottomSheet,navController)
         }
         else {
-            AlumniPostViewScreen(innerPadding,showBottomSheet,navController)
+            AlumniPostViewScreen(navController)
         }
     }
 }
@@ -535,7 +530,7 @@ fun DraggableBottomSheet(
         state = swipeState,
         enableDismissFromStartToEnd = false,
         enableDismissFromEndToStart = false,
-        backgroundContent = { AlumniPostViewScreen(innerPadding , showBottomSheet , navController) },
+        backgroundContent = { AlumniPostViewScreen(navController) },
         modifier = Modifier.fillMaxSize()
     ) {
 
@@ -602,9 +597,6 @@ fun DraggableBottomSheet(
 @Composable
 fun CommentsPage(innerPadding: PaddingValues) {
     val viewModel: AlumniUploadViewModel = viewModel()
-
-    val context = LocalContext.current
-    val bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pfp)
 
     val comments = remember {
         mutableStateListOf<Comment>().apply {

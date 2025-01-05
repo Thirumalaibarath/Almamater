@@ -36,205 +36,169 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.alumni.response.LoggedInAccount
 import com.journalia_nitt.journalia_admin_cms.alumni.theUser
 import com.journalia_nitt.journalia_admin_cms.alumni.viewModels.AlumniAccountViewModel
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_alumni_cms
+import com.journalia_nitt.journalia_admin_cms.navigation.Screens
+import com.journalia_nitt.journalia_admin_cms.student.sharedPreferences.saveUserDetails
+import com.journalia_nitt.journalia_admin_cms.ui.theme.color_2
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
 @Composable
 fun AlumniLoginScreen(
     innerPaddingValues: PaddingValues, navController: NavController
 ){
-    var rollNumber by remember{ mutableStateOf("") }
     var emailId by remember{ mutableStateOf("") }
     var passWord by remember{ mutableStateOf("") }
-    var scrollState = rememberScrollState()
-    var viewModel: AlumniAccountViewModel = viewModel()
+    val scrollState = rememberScrollState()
+    val viewModel: AlumniAccountViewModel = viewModel()
     val loginStatus by viewModel.loginStatus.collectAsState()
     val loggedInAccount by viewModel.loggedInAccount.collectAsState()
     val context = LocalContext.current
     Column(modifier= Modifier
         .fillMaxSize()
+        .background(color = color_2)
         .padding(innerPaddingValues)
-        .background(Color(163, 127, 219))
-        .verticalScroll(scrollState)
+        .background(Color.White)
+        .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ){
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(230.dp),
-            contentAlignment = Alignment.Center
-        ){
-            Column(modifier= Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly) {
-                Text(
-                    text = "alma mater",
-                    color = Color.Black,
-                    fontFamily = urbanist,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                )
-                Image(
-                    painter = painterResource(R.drawable.nitt),
-                    contentDescription = "Logo",
-                    modifier= Modifier.size(
-                        height=92.dp,
-                        width=94.dp
-                    )
-                )
-                Text(
-                    text="Login To Alumni DashBoard",
-                    color= Color.White,
-                    fontFamily= urbanist,
-                    fontWeight= FontWeight(400),
-                    fontSize=21.sp,
-                    textAlign= TextAlign.Center
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(340.dp),
-            contentAlignment = Alignment.Center){
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 35.dp),
-                horizontalAlignment = Alignment.Start
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Box(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(95.dp)){
-                    Column(){
-                        Text(
-                            text = "Email Id",
-                            color = Color.White,
-                            fontFamily = urbanist,
-                            fontWeight = FontWeight(400),
-                            fontSize = 16.sp
-                        )
-                        OutlinedTextField(
-                            value = emailId,
-                            onValueChange = {emailId=it},
-                            modifier = Modifier
-                                .width(340.dp)
-                                .border(2.dp, Color.Black, shape = RoundedCornerShape(12.dp)),
-                            shape = RoundedCornerShape(12.dp),
-                            singleLine = false
-                        )
-                    }
-                }
-                Box(modifier= Modifier
-                    .fillMaxWidth()
-                    .height(95.dp)){
-                    Column(){
-                        Text(
-                            text = "Password",
-                            color = Color.White,
-                            fontFamily = urbanist,
-                            fontWeight = FontWeight(400),
-                            fontSize = 16.sp
-                        )
-                        OutlinedTextField(
-                            value = passWord,
-                            onValueChange = {passWord=it},
-                            modifier = Modifier
-                                .width(340.dp)
-                                .border(2.dp, Color.Black, shape = RoundedCornerShape(12.dp)),
-                            shape = RoundedCornerShape(12.dp),
-                            singleLine = false
-                        )
-                    }
-                }
+                Text(
+                    text = "alma",
+                    fontWeight = FontWeight(600),
+                    fontFamily = FontFamily(Font(R.font.urbanist)),
+                    fontSize = 50.sp,
+                    color = Color(150,103,224)
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text="mater",
+                    fontWeight = FontWeight(600),
+                    fontFamily = FontFamily(Font(R.font.urbanist)),
+                    fontSize = 50.sp,
+                    color = Color(188, 128, 240)
+                )
             }
-        }
-        Box(modifier= Modifier.fillMaxWidth()
-            .height(30.dp),
-            contentAlignment = Alignment.CenterEnd
-        ){
             Text(
-                text="Forgot Password?",
-                modifier= Modifier.
-                padding(end=20.dp).
-                clickable{},
-                color = Color.White,
-                fontFamily = urbanist,
-                fontWeight = FontWeight(400),
-                fontSize = 18.sp
+                text="made for NIT Trichy",
+                fontWeight = FontWeight(600),
+                fontFamily = FontFamily(Font(R.font.urbanist)),
+                fontSize = 15.sp,
+                color = Color(150,103,224)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(R.raw.nitt_logo)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = "SVG Logo",
+                modifier = Modifier.size(100.dp)
             )
         }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text="Login To Alumni Dashboard",
+            fontFamily = urbanist,
+            fontSize = 18.sp,
+        )
+        AlumniRegistrationScreenTextFieldComponent(
+            text = emailId,
+            onValueChange = {
+                emailId = it
+            },
+            label = "Email"
+        )
+        AlumniRegistrationScreenTextFieldComponent(
+            text = passWord,
+            onValueChange = {
+                passWord = it
+            },
+            label = "Password"
+        )
         Box(
-            modifier = Modifier.fillMaxWidth().height(135.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Button(
-                onClick = {
-                    if (emailId.isNotEmpty() && passWord.isNotEmpty()) {
-                        viewModel.login(emailId, passWord)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Email and Password cannot be empty",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                },
-                modifier = Modifier.size(height = 57.dp, width = 240.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(224, 170, 255))
-            ) {
-                Text(
-                    text = "Login",
-                    color = Color.Black,
-                    fontFamily = urbanist,
-                    fontWeight = FontWeight(600),
-                    fontSize = 20.sp
+            modifier = Modifier.fillMaxWidth(0.8f)
+        )
+        {
+            Text(
+                text="Forgot Password?",
+                fontFamily = urbanist,
+                fontWeight = FontWeight(400),
+                fontSize = 14.sp,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.align(Alignment.CenterEnd)
                 )
-            }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)){
+            Text(
+                text = "Don’t have an account?",
+                fontFamily = urbanist,
+                fontSize = 16.sp
+            )
+            Text(
+                text = "Register",
+                color= Color(14, 17, 186),
+                fontFamily= urbanist,
+                fontSize= 16.sp,
+                modifier = Modifier.clickable {
+                    navController.navigate(Screens.AlumniRegisterScreen.route)
+                }
+            )
+        }
+        Button(
+            onClick = {
+                if (emailId.isNotEmpty() && passWord.isNotEmpty()) {
+                    viewModel.login(emailId, passWord)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Email and Password cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            },
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(224, 170, 255))
+        ) {
+            Text(
+                text = "Go to Dashboard",
+                color = Color.Black,
+                fontFamily = urbanist,
+                fontSize = 18.sp
+            )
         }
         LaunchedEffect(loginStatus) {
             if (loginStatus.isNotEmpty()) {
                 Toast.makeText(context, loginStatus, Toast.LENGTH_SHORT).show()
                 if (loggedInAccount != null) {
                     theUser = loggedInAccount as LoggedInAccount
-                    navController.navigate(Screens_in_alumni_cms.landingPage.route) {
-                        popUpTo(Screens_in_alumni_cms.loginPage.route) { inclusive = true }
+                    saveUserDetails(context = context,name = theUser.username, email = theUser.email, role = "alumni")
+                    navController.navigate(Screens.AlumniHomeScreen.route) {
+                        popUpTo(0) { inclusive = true }
                     }
                 }
-            }
-        }
-        Box(modifier= Modifier.fillMaxWidth()
-            .height(30.dp)
-            .clickable{
-                navController.navigate(Screens_in_alumni_cms.registerPage.route)
-            },
-            contentAlignment = Alignment.Center
-        ){
-            Row {
-                Text(
-                    text = "Don’t have an account?",
-                    modifier = Modifier.padding(end = 20.dp),
-                    color = Color.White,
-                    fontFamily = urbanist,
-                    fontWeight = FontWeight(400),
-                    fontSize = 18.sp
-                )
-                Text(
-                    text = "Register",
-                    color= Color(14, 17, 186),
-                    fontFamily= urbanist,
-                    fontWeight= FontWeight(600),
-                    fontSize=18.sp,
-                )
             }
         }
     }

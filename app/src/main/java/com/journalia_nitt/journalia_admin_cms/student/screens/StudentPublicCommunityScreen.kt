@@ -60,7 +60,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.journalia_nitt.journalia_admin_cms.R
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens
 import com.journalia_nitt.journalia_admin_cms.student.responses.UserFetchClass
 import com.journalia_nitt.journalia_admin_cms.student.viewModels.FetchViewModel
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
@@ -664,7 +663,7 @@ fun ImagelessCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable{
-                navController.navigate(Screens.ViewPost.createRoute(item))
+//                navController.navigate(ScreenFinal.Student)
             }
             .padding(horizontal = 10.dp)
             .height(200.dp),
@@ -746,7 +745,7 @@ fun ImageCard(
             .padding(horizontal = 10.dp)
             .height(250.dp)
             .clickable{
-                navController.navigate(Screens.ViewPost.createRoute(item))
+//                navController.navigate(Screens.ViewPost.createRoute(item))
             },
         colors = CardDefaults.cardColors(color),
         elevation = CardDefaults.cardElevation(5.dp),

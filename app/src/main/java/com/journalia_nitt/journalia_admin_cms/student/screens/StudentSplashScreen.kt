@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,10 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.journalia.Student.SharedPreferences.getUserDetails
 import com.journalia_nitt.journalia_admin_cms.R
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens
-import kotlinx.coroutines.delay
 
 @Composable
 fun StudentSplashScreen(innerPadding: PaddingValues, navController: NavController){
@@ -83,10 +78,5 @@ fun StudentSplashScreen(innerPadding: PaddingValues, navController: NavControlle
             )
         }
     }
-    val localContext = LocalContext.current
-    val nextPage = (if(getUserDetails(context = localContext)?.loginStatus == true) Screens.HomePage.route else Screens.LoginPage.route )
-    LaunchedEffect(Unit){
-        delay(2000)
-        navController.navigate(nextPage)
-    }
+
 }

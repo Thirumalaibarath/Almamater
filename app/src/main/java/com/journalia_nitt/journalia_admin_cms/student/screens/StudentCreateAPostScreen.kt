@@ -51,12 +51,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.journalia.Student.SharedPreferences.getUserDetails
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.student.ContentResolver1
 import com.journalia_nitt.journalia_admin_cms.student.Uri1
 import com.journalia_nitt.journalia_admin_cms.student.responses.FileData
 import com.journalia_nitt.journalia_admin_cms.student.responses.UserUploadClass
+import com.journalia_nitt.journalia_admin_cms.student.sharedPreferences.getUserDetails
 import com.journalia_nitt.journalia_admin_cms.student.viewModels.UploadViewModel
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 import kotlinx.coroutines.Dispatchers

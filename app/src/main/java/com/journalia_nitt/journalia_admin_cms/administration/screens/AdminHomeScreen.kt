@@ -1,233 +1,175 @@
 package com.journalia_nitt.journalia_admin_cms.administration.screens
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.journalia_nitt.journalia_admin_cms.R
-import com.journalia_nitt.journalia_admin_cms.administration.landingPageButtonTexts
-import com.journalia_nitt.journalia_admin_cms.administration.mode
-import com.journalia_nitt.journalia_admin_cms.administration.sharedPreferences.getFromSharedPreferences
-import com.journalia_nitt.journalia_admin_cms.administration.sharedPreferences.saveToSharedPreferences
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_Admin_cms
+import com.journalia_nitt.journalia_admin_cms.navigation.Screens
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
 @Composable
-fun AdminHomeScreen(token : MutableState<String>, innerPadding: PaddingValues, navController: NavController) {
-
-    val context = LocalContext.current
-
-    try {
-        if(getFromSharedPreferences(context , "token") == "") {
-            saveToSharedPreferences(context,"token",token.value)
-        }
-    }
-    catch(e : Exception) {
-        Log.d("message" , e.message.toString())
-    }
-
+fun AdminHomeScreen(navController: NavController) {
+    var mode by remember{ mutableIntStateOf(0)}
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxSize(),
-            colors = CardDefaults.cardColors(Color.Companion.White)
-        ) {
-            Box() {
-                IconButton(
-                    modifier = Modifier.padding(end = 10.dp, top = 10.dp),
-                    onClick = {
-                        token.value = ""
-                        saveToSharedPreferences(context,"token",token.value)
-                        navController.popBackStack()
-                        navController.popBackStack()
-                    }
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(R.raw.nitt_logo)
+                .decoderFactory(SvgDecoder.Factory())
+                .build(),
+            contentDescription = "SVG Logo",
+            modifier = Modifier.padding(top = 10.dp).size(100.dp)
+        )
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp)
+            )
+            {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.Companion.CenterHorizontally
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.signout),
-                        contentDescription = "sign_out",
-                        modifier = Modifier.scale(2f)
+                    Text(
+//                    token.value
+                        text = "Welcome to Student Welfare",
+                        fontFamily = urbanist,
+                        fontSize = 20.sp,
+                        color = Color.Companion.Black,
+                        fontWeight = FontWeight.Companion.Bold
+                    )
+                    Text(
+                        text = "Dashboard",
+                        fontFamily = urbanist,
+                        fontSize = 20.sp,
+                        color = Color.Companion.Black,
+                        fontWeight = FontWeight.Companion.Bold
                     )
                 }
-                Column(
-                    modifier = Modifier
-                ) {
-                    Spacer(modifier = Modifier.padding(top = 30.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "alma",
-                            fontFamily = urbanist,
-                            fontSize = 40.sp,
-                            color = Color(0XFF9667E0),
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(
-                            text = "mater",
-                            fontFamily = urbanist,
-                            fontSize = 40.sp,
-                            color = Color(0XFFBC80F0),
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.padding(top = 80.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.nittlogo),
-                    contentDescription = "Logo",
-                    modifier = Modifier.scale(3.5f)
+                HomePageComponent(
+                    event = {
+
+                        navController.navigate(Screens.AdminDashboardScreen.route)
+                    },
+                    text = "ADMIN DASHBOARD"
                 )
-            }
-            Spacer(modifier = Modifier.padding(top = 60.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.Companion.CenterHorizontally
-            ) {
-                Text(
-                    text = "Welcome to "+token.value,
-                    fontFamily = urbanist,
-                    fontSize = 20.sp,
-                    color = Color.Companion.Black,
-                    fontWeight = FontWeight.Companion.Bold
+                HomePageComponent(
+                    event = {
+                        mode = 0
+                        navController.navigate(Screens.AdminCreatePostScreen.route+"/$mode")
+                    },
+                    text = "POST A DEADLINE"
                 )
-                Text(
-                    text = "Dashboard",
-                    fontFamily = urbanist,
-                    fontSize = 20.sp,
-                    color = Color.Companion.Black,
-                    fontWeight = FontWeight.Companion.Bold
+                HomePageComponent(
+                    event = {
+                        mode = 1
+                        navController.navigate(Screens.AdminCreatePostScreen.route+"/$mode")
+                    },
+                    text = "POST ANNOUNCEMENT"
                 )
-            }
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-            for (i in landingPageButtonTexts) {
-                Spacer(modifier = Modifier.padding(top = 25.dp))
-                Card(
-                    modifier = Modifier
-                        .height(70.dp)
-                        .fillMaxWidth()
-                        .padding(horizontal = 25.dp)
-                        .clickable {
-                            if (i.first == "POST A DEADLINE") mode.value = 0
-                            else if(i.first == "POST ANNOUNCEMENT") mode.value = 1
-                            val route = when (i.second) {
-                                is Screens_in_Admin_cms.AdminPage -> Screens_in_Admin_cms.AdminPage.createRoute(token.value)
-                                is Screens_in_Admin_cms.DeadlinePage -> Screens_in_Admin_cms.DeadlinePage.createRoute(token.value)
-                                is Screens_in_Admin_cms.AnnouncementPage -> Screens_in_Admin_cms.AnnouncementPage.createRoute(token.value)
-                                else -> throw IllegalStateException("Unknown screen")
-                            }
-                            navController.navigate(route)
-                        }
-                        .shadow(
-                            elevation = 15.dp,
-                            shape = RoundedCornerShape(10.dp)
-                        ),
-                    colors = CardDefaults.cardColors(Color(205, 193, 255))
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.Companion.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = i.first,
-                            fontFamily = urbanist,
-                            fontSize = 20.sp,
-                            color = Color.Companion.Black,
-                            fontWeight = FontWeight.Companion.Bold
-                        )
-                    }
-                }
             }
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 20.dp, start = 15.dp, end = 15.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.Companion.Bottom
+                modifier = Modifier.fillMaxWidth().padding(25.dp,0.dp,25.dp,10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Card(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                        .weight(0.5f),
+                    modifier = Modifier,
                     colors = CardDefaults.cardColors(Color(163, 127, 219))
                 ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.Companion.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
+                    Box( contentAlignment = Alignment.Center)
+                    {
                         Text(
                             text = "POST A QUERY",
                             fontFamily = urbanist,
-                            fontSize = 16.sp,
+                            fontSize = 12.sp,
                             color = Color.Companion.White,
-                            fontWeight = FontWeight.Companion.Bold
+                            fontWeight = FontWeight.Companion.Bold,
+                            modifier = Modifier.padding(15.dp)
                         )
                     }
                 }
-                Spacer(modifier = Modifier.padding(start = 20.dp))
                 Card(
-                    modifier = Modifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                        .weight(0.5f),
+                    modifier = Modifier,
                     colors = CardDefaults.cardColors(Color(163, 127, 219))
                 ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.Companion.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
+                    Box( contentAlignment = Alignment.Center)
+                    {
                         Text(
                             text = "CONTACT US",
                             fontFamily = urbanist,
-                            fontSize = 16.sp,
+                            fontSize = 12.sp,
                             color = Color.Companion.White,
-                            fontWeight = FontWeight.Companion.Bold
+                            fontWeight = FontWeight.Companion.Bold,
+                            modifier = Modifier.padding(15.dp)
                         )
                     }
                 }
             }
+    }
+}
+
+@Composable
+fun HomePageComponent(
+    event:()->Unit,
+    text:String
+)
+{
+    Card(
+        modifier = Modifier
+            .height(50.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 25.dp)
+            .clickable {
+                event()
+            }
+            .shadow(
+                elevation = 15.dp,
+                shape = RoundedCornerShape(10.dp)
+            ),
+        colors = CardDefaults.cardColors(Color(205, 193, 255))
+    ) {
+        Box(modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center)
+        {
+            Text(
+                text = text,
+                fontFamily = urbanist,
+                fontSize = 17.sp,
+                color = Color.Companion.Black,
+                fontWeight = FontWeight.Companion.Bold,
+            )
         }
+
     }
 }

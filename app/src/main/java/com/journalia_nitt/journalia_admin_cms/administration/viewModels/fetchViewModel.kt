@@ -9,17 +9,15 @@ import com.journalia_nitt.journalia_admin_cms.administration.response.forEachUse
 import kotlinx.coroutines.launch
 
 class AdminDetailsViewModel : ViewModel() {
-    private val _detailsList = mutableStateListOf<forEachUser>() // Changed to match backend response
+    private val _detailsList = mutableStateListOf<forEachUser>()
     val detailsList: List<forEachUser> = _detailsList
-
     fun fetchAdminDetails() {
         viewModelScope.launch {
             try {
-                val response = FileUploadClient.fetchAdminDetails() // Assuming this fetches the data
+                val response = FileUploadClient.fetchAdminDetails()
                 if (response.isSuccessful && response.body() != null) {
                     _detailsList.clear()
                     val fetchedData = response.body()!!
-                    // Mapping fetched data to a list of 'forEachUser' items (the response model)
                     _detailsList.addAll(fetchedData.data)
                 } else {
                     val errorBody = response.errorBody()?.string()

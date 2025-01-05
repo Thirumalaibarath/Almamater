@@ -13,7 +13,7 @@ android {
         applicationId = "com.journalia_nitt.journalia_admin_cms"
         minSdk = 26
         targetSdk = 34
-        versionCode = 4
+        versionCode = 6
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -107,7 +107,9 @@ dependencies {
     implementation ("io.coil-kt:coil-compose:2.4.0")
     implementation ("io.coil-kt:coil-svg:2.4.0")
 
-
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+//    for updation
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
+
 
 }

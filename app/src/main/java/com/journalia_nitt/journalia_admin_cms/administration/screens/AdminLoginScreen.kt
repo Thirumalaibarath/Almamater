@@ -1,6 +1,5 @@
 package com.journalia_nitt.journalia_admin_cms.administration.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -51,7 +50,7 @@ import coil.request.ImageRequest
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.administration.LoginClient
 import com.journalia_nitt.journalia_admin_cms.administration.response.LoginBody
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens_in_Admin_cms
+import com.journalia_nitt.journalia_admin_cms.navigation.Screens
 import com.journalia_nitt.journalia_admin_cms.ui.theme.poppins
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -124,7 +123,8 @@ fun AdminLoginScreen(
                 color = Color.Black
             )
             Column(
-                modifier = Modifier.fillMaxWidth(0.9f)
+                modifier = Modifier.fillMaxWidth(0.9f),
+                horizontalAlignment = Alignment.CenterHorizontally
             )
             {
                 Text(
@@ -145,7 +145,9 @@ fun AdminLoginScreen(
                             width = 1.5.dp,
                             color = Color.Black,
                             shape = RoundedCornerShape(12.dp)
-                        ),
+                        )
+                        .fillMaxWidth()
+                    ,
                     shape = RoundedCornerShape(12.dp),
                     singleLine = false,
                     colors= OutlinedTextFieldDefaults.colors(
@@ -173,7 +175,7 @@ fun AdminLoginScreen(
                     }
                 )
             }
-            Column( modifier = Modifier.fillMaxWidth(0.9f)){
+            Column(modifier = Modifier.fillMaxWidth(0.9f)){
                 Text(
                     text = "Password",
                     fontFamily = poppins,
@@ -195,6 +197,7 @@ fun AdminLoginScreen(
                     ),
                     modifier = Modifier
                         .semantics { contentDescription = "Password input field" }
+                        .fillMaxWidth()
                         .border(
                             width = 1.5.dp,
                             color = Color.Black,
@@ -231,31 +234,23 @@ fun AdminLoginScreen(
                         coroutineScope.launch(Dispatchers.Main) {
                             if(emailId.isNotBlank()&& passWord.isNotBlank())
                             {
-                                if(emailId == "google" || passWord == "nothing"){
-                                    try {
-                                        isLoading = true
-                                        val response = LoginClient.login(LoginBody(emailId, passWord))
-                                        if (response.isSuccessful) {
-                                            isLoading = false
-                                            passWord = ""
-                                            Log.d("messageLogin", "success")
-                                            navController.navigate(Screens_in_Admin_cms.SecretPage.createRoute(emailId))
-                                        } else {
-                                            //handle displaying that the process failed
-                                            isLoading = false
-                                            Log.d("messageLogin", response.message)
-                                            passWord = ""
-                                            navController.navigate(Screens_in_Admin_cms.LoginPage.route)
-                                        }
-                                    }
-                                    catch (e: Exception) {
+                                try {
+                                    isLoading = true
+                                    val response = LoginClient.login(LoginBody(emailId, passWord))
+                                    if (response.isSuccessful) {
                                         isLoading = false
                                         passWord = ""
-                                        Log.d("message", e.message.toString())
+                                        navController.navigate(Screens.AdminLoginVerificationScreen.route + "/$emailId")
+                                    } else {
+                                        isLoading = false
+                                        passWord = ""
+                                        navController.navigate(Screens.AdminLoginScreen.route)
                                     }
-                                    navController.navigate(Screens_in_Admin_cms.SecretPage.route)
                                 }
-
+                                catch (e: Exception) {
+                                    isLoading = false
+                                    passWord = ""
+                                }
                             }
                             else
                             {

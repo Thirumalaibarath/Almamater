@@ -3,8 +3,8 @@ package com.journalia_nitt.journalia_admin_cms.student
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
-import com.example.journalia.Student.Services.DeadlineApiService
-import com.example.journalia.Student.Services.handleBookMark
+import com.journalia_nitt.journalia_admin_cms.student.services.DeadlineApiService
+import com.journalia_nitt.journalia_admin_cms.student.services.handleBookMark
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

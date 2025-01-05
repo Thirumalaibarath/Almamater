@@ -51,7 +51,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.journalia_nitt.journalia_admin_cms.R
-import com.journalia_nitt.journalia_admin_cms.navigation.Screens
 import com.journalia_nitt.journalia_admin_cms.student.pdfUrlGlobal
 import com.journalia_nitt.journalia_admin_cms.student.responses.BookMark
 import com.journalia_nitt.journalia_admin_cms.student.responses.Deadline
@@ -427,7 +426,7 @@ fun openPdf(
 //                pdfUrl
 //            }
 //            pdfUrlGlobal = "https://docs.google.com/gview?embedded=true&url=$encodedPdfUrl"
-            navController.navigate(Screens.PdfWebViewPage.route)
+//            navController.navigate(Screens.PdfWebViewPage.route)
         }
     } catch (e: ActivityNotFoundException) {
         Toast.makeText(context, "Error opening PDF. Please try again later.", Toast.LENGTH_LONG).show()

@@ -77,50 +77,17 @@ fun AlumniCreateAPostScreen(
 
     var isUploading by remember { mutableStateOf(false) }
     val context= LocalContext.current
-
     var commentState = remember { mutableStateOf(true) }
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(innerPaddingValues)){
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 76.dp, top = 16.dp, end = 16.dp),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Spacer(modifier = Modifier.width(36.dp)) // Spacer for spacing between Image and Text
-
-            // Title Text
-            Text(
-                text = "alma mater",
-                fontFamily = urbanist,
-                color = Color.Black,
-                fontSize = 32.sp,
-                modifier = Modifier.align(Alignment.CenterVertically) // Center vertically in the row
-            )
-        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState) // Enable vertical scrolling
                 .padding(start = 24.dp, end = 24.dp) // Add padding to the whole column
         ) {
-            // Back Button Image
 
-            // Subtitle Text
-            Text(
-                modifier = Modifier.padding(start = 90.dp),
-                text = "CREATE A POST",
-                fontFamily = urbanist,
-                color = Color(0xff656565),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.ExtraBold
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            // Title Input Label
             Text(
                 text = "Title of your post",
                 fontFamily = urbanist,

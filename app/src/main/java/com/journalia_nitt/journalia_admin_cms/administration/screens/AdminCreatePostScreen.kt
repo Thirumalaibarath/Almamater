@@ -9,23 +9,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -35,7 +29,6 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -43,7 +36,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -65,8 +57,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.journalia_nitt.journalia_admin_cms.R
-import com.journalia_nitt.journalia_admin_cms.administration.mode
-import com.journalia_nitt.journalia_admin_cms.administration.response.AdminDashBoardInfo
 import com.journalia_nitt.journalia_admin_cms.administration.viewModels.FileUploadViewModel
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 import kotlinx.coroutines.Dispatchers
@@ -77,14 +67,12 @@ import java.util.Calendar
 
 @Composable
 fun AdminCreateAPostScreen(
-    token:String,
-    innerPaddingValues: PaddingValues,
-    navController: NavController
+    navController: NavController,
+    mode:Int
 ) {
     val Uri by remember{ mutableStateOf<Uri?>(null) }
     val ContentResolver1 by remember{ mutableStateOf<ContentResolver?>(null) }
 
-    Log.d("tokenFromBackStack", token)
     val scrollState = rememberScrollState()
     val descriptionScrollState = rememberScrollState()
     val viewModel: FileUploadViewModel = viewModel()
@@ -104,44 +92,7 @@ fun AdminCreateAPostScreen(
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     var description by remember { mutableStateOf("") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(WindowInsets.systemBars.asPaddingValues())
-    ) {
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(0.6f)
-                .background(color = Color.Transparent)
-                .padding(10.dp, 0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.back ),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(25.dp)
-                    .clickable {
-                        navController.popBackStack()
-                    },
-                tint = Color.Black
-            )
-            Text(
-                text = "CREATE",
-                fontFamily = urbanist,
-                color = Color.Black,
-                fontSize = 16.sp,
-            )
-        }
-        Spacer(modifier = Modifier.height(3.dp))
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Color.LightGray)
-        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -149,9 +100,9 @@ fun AdminCreateAPostScreen(
                 .padding(10.dp, 0.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = if (mode.value == 1) "Title of your Announcement" else "Title of your Deadline",
+                text = if (mode == 1) "Title of your Announcement" else "Title of your Deadline",
                 fontFamily = urbanist,
                 color = Color.Black,
                 fontSize = 16.sp,
@@ -173,7 +124,6 @@ fun AdminCreateAPostScreen(
                     unfocusedTextColor = Color.Black
                 )
             )
-            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "Description",
                 fontFamily = urbanist,
@@ -202,9 +152,6 @@ fun AdminCreateAPostScreen(
                     )
                 )
             }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             var expanded by remember { mutableStateOf(false) }
             val items = listOf("Option 1", "Option 2", "Option 3","Option 1", "Option 2", "Option 3","Option 1", "Option 2", "Option 3","Option 1", "Option 2", "Option 3")
             var selectedItem by remember { mutableStateOf("") }
@@ -249,64 +196,49 @@ fun AdminCreateAPostScreen(
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             CustomFileUploadButton(theFileName, fileUploadMode)
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            Text(
+                text = "Deadline Date",
+                fontFamily = urbanist,
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.ExtraBold,
+                textAlign = TextAlign.Center
             )
-            {
-                Text(
-                    text = "Deadline Date",
-                    fontFamily = urbanist,
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    textAlign = TextAlign.Center
-                )
-                Box(modifier = Modifier.fillMaxWidth())
-                {
-                    Icon(
-                        painter = painterResource(id = R.drawable.calender),
-                        contentDescription = "calendar_icon",
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 20.dp)
-                            .size(25.dp)
-                            .clickable {
-                                showDatePicker = true
-                            }
-                        ,
-                        tint = Color.Black
-                    )
-                    OutlinedTextField(
-                        value = selectedDate,
-                        onValueChange = { selectedDate = it },
-                        label = {
-                            Text(modifier = Modifier.clickable { showDatePicker=true }, text = if(mode.value == 1) "Deadline (optional)" else "Deadline (mandatory)", fontSize = 12.sp, color = Color.LightGray)
-                        },
-                        readOnly = true,
-                        enabled = false,
-                        placeholder = { Text(modifier = Modifier.clickable { showDatePicker=true }, text = "dd/mm/yyyy", fontSize = 16.sp) },
-                        modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .align(Alignment.Center),
-                        shape = RoundedCornerShape(12.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = Color.Black,
-                            focusedBorderColor = Color.Black,
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black,
-                            disabledBorderColor =  Color.Black,
-                            disabledLabelColor = Color.Black,
-                        ),
-                    )
-                }
-            }
 
-            Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = selectedDate,
+                    onValueChange = { selectedDate = it },
+                    label = {
+                        Text(modifier = Modifier.clickable { showDatePicker=true }, text = if(mode == 1) "Deadline (optional)" else "Deadline (mandatory)", fontSize = 16.sp, color = Color.Black)
+                    },
+                    readOnly = true,
+                    enabled = false,
+                    modifier = Modifier.fillMaxWidth(0.7f),
+                    placeholder = { Text(modifier = Modifier.clickable { showDatePicker=true }, text = "dd/mm/yyyy", fontSize = 16.sp) },
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.Black,
+                        focusedBorderColor = Color.Black,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        disabledBorderColor =  Color.Black,
+                        disabledLabelColor = Color.Black,
+                    ),
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.calendar),
+                            contentDescription = "calendar_icon",
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clickable {
+                                    showDatePicker = true
+                                },
+                            tint = Color.Black
+                        )
+                    }
+                )
 
             if (showDatePicker) {
                 DatePickerDialog(
@@ -322,7 +254,6 @@ fun AdminCreateAPostScreen(
                     setOnDismissListener { showDatePicker = false }
                 }.show()
             }
-
             Text(
                 text = "Important Links - 1",
                 fontFamily = urbanist,
@@ -334,13 +265,9 @@ fun AdminCreateAPostScreen(
                 value = link1.value,
                 onValueChange = { link1.value = it },
                 modifier = Modifier
-                    .height(53.dp)
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
             Text(
                 text = "Important Links - 2",
                 fontFamily = urbanist,
@@ -352,14 +279,9 @@ fun AdminCreateAPostScreen(
                 value = link2.value,
                 onValueChange = { link2.value = it },
                 modifier = Modifier
-                    .height(53.dp)
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -368,7 +290,7 @@ fun AdminCreateAPostScreen(
                     CircularProgressIndicator()
             }
             Card(
-                modifier = Modifier.padding(bottom = 10.dp).align(Alignment.CenterHorizontally).fillMaxWidth(0.5f).clickable{
+                modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.4f).clickable{
                     if(!isFieldBlank.contains(true) && fileUploadMode.value != 0)
                     {
                         isLoaded = true
@@ -378,22 +300,22 @@ fun AdminCreateAPostScreen(
                             viewModel.uploadFile(uri, contentResolver)
                             delay(10000)
                             withContext(Dispatchers.Main) {
-                                viewModel.uploadDetailsDeadline(
-                                    AdminDashBoardInfo(
-                                        token = token,
-                                        author = "adminOffice",
-                                        title = title,
-                                        description = description,
-                                        deadline = selectedDate,
-                                        file_url = viewModel.fileUrl.value,
-                                        mode = mode.value,
-                                        link1 = link1.value,
-                                        link2 = link2.value
-                                    )
-                                )
-                                fileUploadMode.value = 0
-                                posted = true
-                                theFileName.value = "Attach circular"
+//                                viewModel.uploadDetailsDeadline(
+//                                    AdminDashBoardInfo(
+//                                        token = token,
+//                                        author = "adminOffice",
+//                                        title = title,
+//                                        description = description,
+//                                        deadline = selectedDate,
+//                                        file_url = viewModel.fileUrl.value,
+//                                        mode = mode,
+//                                        link1 = link1.value,
+//                                        link2 = link2.value
+//                                    )
+//                                )
+//                                fileUploadMode.value = 0
+//                                posted = true
+//                                theFileName.value = "Attach circular"
                             }
                         }
                         isFieldBlank.replaceAll(
@@ -402,7 +324,7 @@ fun AdminCreateAPostScreen(
                     }
                     else
                     {
-                        if (selectedDate == "" && mode.value == 0){
+                        if (selectedDate == "" && mode == 0){
                             Toast.makeText(context, "Please select a deadline", Toast.LENGTH_LONG).show()
                             return@clickable
                         }
@@ -431,7 +353,7 @@ fun AdminCreateAPostScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = Color((0xffa37fdb))
                 ),
-                elevation = CardDefaults.cardElevation(20.dp),
+                elevation = CardDefaults.cardElevation(10.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Box(modifier = Modifier.fillMaxSize().padding(vertical = 10.dp), contentAlignment = Alignment.Center)
@@ -439,7 +361,9 @@ fun AdminCreateAPostScreen(
                     Text(
                         text = "Upload",
                         fontFamily = urbanist,
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
                 }
             }
@@ -449,8 +373,8 @@ fun AdminCreateAPostScreen(
                 navController.popBackStack()
                 posted=false
             }
+            Spacer(modifier = Modifier.height(5.dp))
         }
-    }
 }
 @Composable
 fun CustomFileUploadButton(theFileName: MutableState<String>, fileUploadMode: MutableState<Int>) {

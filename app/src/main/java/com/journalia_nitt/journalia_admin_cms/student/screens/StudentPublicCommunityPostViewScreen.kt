@@ -45,12 +45,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.journalia.Student.SharedPreferences.getUserDetails
 import com.journalia_nitt.journalia_admin_cms.R
 import com.journalia_nitt.journalia_admin_cms.alumni.clickedPost
 import com.journalia_nitt.journalia_admin_cms.alumni.screens.DisplayPostImage
 import com.journalia_nitt.journalia_admin_cms.student.responses.UserFetchClass
 import com.journalia_nitt.journalia_admin_cms.student.responses.userComments
+import com.journalia_nitt.journalia_admin_cms.student.sharedPreferences.getUserDetails
 import com.journalia_nitt.journalia_admin_cms.student.viewModels.handleUserUpvotes
 import com.journalia_nitt.journalia_admin_cms.ui.theme.urbanist
 
@@ -122,7 +122,6 @@ fun StudentPublicCommunityPostViewScreen(navController: NavController, post: Use
                     }
                 }
             }
-
         }
         Spacer(modifier = Modifier.height(10.dp))
         Column(

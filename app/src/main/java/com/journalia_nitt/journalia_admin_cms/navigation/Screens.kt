@@ -1,40 +1,41 @@
 package com.journalia_nitt.journalia_admin_cms.navigation
 
-import com.google.gson.Gson
-import android.net.Uri
-import com.journalia_nitt.journalia_admin_cms.student.responses.Deadline
-import com.journalia_nitt.journalia_admin_cms.student.responses.UserFetchClass
-
-sealed class Screens(val route : String) {
-    object CalenderPage : Screens("CalenderPage")
-    object AdminPage : Screens("AdminPage")
-    object PostCreationPage : Screens("PostCreationPage")
-    object BookMarkPage : Screens("BookmarkPage")
-    object ProfilePage : Screens("ProfilePage")
-    object LoginPage : Screens("LoginPage")
-    object CustomReminderPage : Screens("CustomReminderPage")
-    object AdminDetailsPage : Screens("AdminDetailsPage/{item}") {
-        fun createRoute(item: Deadline): String {
-            val itemJson = Uri.encode(Gson().toJson(item))
-            return "AdminDetailsPage/$itemJson"
-        }
-    }
-    object FestDirectory : Screens("FestDirectory")
-    object AuthPage : Screens("AuthPage")
-    object HomePage: Screens("HomePage")
-    object ClubDirectory: Screens("ClubDirectory")
-    object CommunityPage: Screens("CommunityPage")
-    object ClubPage: Screens("ClubPage")
-    object Webmail : Screens("Webmail")
-    object SplashScreen : Screens("SplashScreen")
-    object ClubCommunityPage : Screens("ClubCommunityPage")
-    object ViewPost : Screens("ViewPost/{item}"){
-        fun createRoute(item: UserFetchClass): String {
-            val itemJson1 = Uri.encode(Gson().toJson(item))
-            return "ViewPost/$itemJson1"
-        }
-    }
-    object AlumniCommunityScreen : Screens("AlumniCommunityScreen")
-    object PdfWebViewPage : Screens("PdfWebViewPage")
-    object AlumniContentPage : Screens("AlumniPageContent")
+sealed class Screens(val route:String) {
+    //common
+    data object UserRoleSelectionScreen : Screens("UserRoleSelectionScreen")
+    data object CommonSplashScreen : Screens("CommonSplashScreen")
+    // admin side
+    data object AdminHomeScreen : Screens("AdminHomeScreen")
+    data object AdminCreatePostScreen : Screens("AdminCreatePostScreen")
+    data object AdminDashboardScreen : Screens("AdminDashboardScreen")
+    data object AdminLoginScreen : Screens("AdminLoginScreen")
+    data object AdminLoginVerificationScreen : Screens("AdminVerificationScreen")
+    data object AdminSplashScreen : Screens("AdminSplashScreen")
+    data object AdminViewPostScreen : Screens("AdminViewPostScreen")
+    //    Alumni Side
+    data object AlumniCreateAPostScreen : Screens("AlumniCreateAPostScreen")
+    data object AlumniLoginScreen : Screens("AlumniLoginScreen")
+    data object AlumniRegisterScreen : Screens("AlumniRegisterScreen")
+    data object AlumniSplashScreen : Screens("AlumniSplashScreen")
+    data object AlumniPostViewScreen: Screens("AlumniPostViewScreen")
+    data object AlumniHomeScreen: Screens("AlumniHomeScreen")
+    data object AlumniCommunityScreen: Screens("AlumniCommunityScreen")
+    //    Student Side
+    data object StudentAdminPostViewScreen : Screens("StudentAdminPostViewScreen")
+    data object StudentLoginScreen : Screens("StudentLoginScreen")
+    data object StudentClubDirectoryScreen : Screens("StudentClubDirectoryScreen")
+    data object StudentFestDirectoryScreen : Screens("StudentClubDirectoryScreen")
+    data object StudentSplashScreen : Screens("StudentSplashScreen")
+    data object StudentBookMarkScreen : Screens("StudentBookMarkScreen")
+    data object StudentCalendarScreen : Screens("StudentCalendarScreen")
+    data object StudentCreateAPostScreen : Screens("StudentCreateAPostScreen")
+    data object StudentHomeScreen : Screens("StudentSplashScreen")
+    data object StudentAdminDashboardScreen : Screens("StudentAdminDashboardScreen")
+    data object StudentInboxScreen : Screens("StudentInboxScreen")
+    data object StudentProfileScreen : Screens("StudentProfileScreen")
+    data object StudentPublicCommunityPostViewScreen : Screens("StudentPublicCommunityPostViewScreen")
+    data object StudentPublicCommunityScreen : Screens("StudentPublicCommunityScreen")
+    // Web View
+    data object WebViewScreen : Screens("WebViewScreen")
+    data object WebMailScreen : Screens("WebMailScreen")
 }
